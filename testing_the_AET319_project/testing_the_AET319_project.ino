@@ -12,6 +12,7 @@
 //VARIABLES
 Servo myServo;
 const int buttonPin = 2;
+int pos = 180;
 
 void setup() {
   // put your setup code here, to run once:
@@ -22,10 +23,12 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   //if button is pressed, swivel servo 180 degrees
+    
   if (digitalRead(buttonPin) == HIGH) {
-    myServo.write(180);
-  } else {
     myServo.write(0);
+  } else {
+  digitalRead(buttonPin) == HIGH;
+    myServo.write(180);
   }
 //TODO: Add LED
 }
