@@ -33,6 +33,7 @@ int noteDurations[] = {
 
 Servo windowServo;
 Servo gothelServo;
+Servo ruffianServo;
 
 void setup() {
 
