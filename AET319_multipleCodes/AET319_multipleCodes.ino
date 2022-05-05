@@ -1,16 +1,14 @@
-/*
-  circuit:
-  - Piezo is on pin 8
-  (Breadboard setup)
-  ground wire goes on short leg
-  resistor goes on + sign side
-  green pin wire goes on other end of resistor
-  the other end of green wire goes into pin (in this case pin 8)
-*/
-
+#include <Servo.h>
 #include "pitches.h"
 
+const int letDownYourHair = 13;
+const int windowRapunzel = 10;
+const int lantern1 = 5;
+const int lantern2 = 4;
 const int rapunzelHair = 12;
+
+int letDownYourHairState = LOW;
+int windowRapunzelState = LOW;
 int rapunzelHairState = LOW;
 
 // notes in the melody:
@@ -23,16 +21,50 @@ int noteDurations[] = {
   2, 4, 2, 4, 1, 2, 2, 4, 2, 4, 1, 2, 2, 4, 4, 4, 1, 2, 4, 4, 4, 2, 4, 1, 2, 2, 2, 2, 1
 };
 
+Servo servo;
+
 void setup() {
+
+  pinMode(lantern1, OUTPUT);
+  pinMode(lantern2, OUTPUT);
+  pinMode(windowRapunzel, INPUT);
   pinMode(rapunzelHair, INPUT);
 
+
+  // servo setup
+  servo.attach(3);
+
+  //button setup
+  pinMode(letDownYourHair, INPUT);
+
+  Serial.begin(9600);
 }
 
 void loop() {
+  windowRapunzelState = digitalRead(windowRapunzel);
+
+  if (windowRapunzelState == HIGH) {
+    digitalWrite(lantern1, HIGH);
+    digitalWrite(lantern2, HIGH);
+
+  } else {
+    digitalWrite(lantern1, LOW);
+    digitalWrite(lantern2, LOW);
+
+  }
+
+  letDownYourHairState = digitalRead(letDownYourHair);
+  if (digitalRead(13) == LOW) {
+    servo.write(180);
+  } else {
+    servo.write(90);
+  }
+
   rapunzelHairState = digitalRead(rapunzelHair);
   if (rapunzelHairState == HIGH) {
     buzzer();
   }
+  Serial.println(letDownYourHairState);
 }
 
 void buzzer() {

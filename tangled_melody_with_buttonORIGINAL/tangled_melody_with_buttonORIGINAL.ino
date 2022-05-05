@@ -10,8 +10,8 @@
 
 #include "pitches.h"
 
-const int rapunzelHair = 12;
-int rapunzelHairState = LOW;
+const int switchPin = 12;
+int switchState = LOW;
 
 // notes in the melody:
 int melody[] = {
@@ -24,13 +24,13 @@ int noteDurations[] = {
 };
 
 void setup() {
-  pinMode(rapunzelHair, INPUT);
+  pinMode(switchPin, INPUT);
 
 }
 
 void loop() {
-  rapunzelHairState = digitalRead(rapunzelHair);
-  if (rapunzelHairState == HIGH) {
+  switchState = digitalRead(switchPin);
+  if (switchState == HIGH) {
     buzzer();
   }
 }
