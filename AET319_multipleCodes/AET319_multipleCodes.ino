@@ -1,15 +1,25 @@
 #include <Servo.h>
 #include "pitches.h"
 
-const int letDownYourHair = 13;
-const int windowRapunzel = 10;
-const int lantern1 = 5;
-const int lantern2 = 4;
-const int rapunzelHair = 12;
+//switches
+const int letDownYourHair = 13; //switch for window pushing hair servo
+const int iWannaSeeTheLights = 11; // switch for mood swing gothel servo
+const int motherGothelRuffians = 9;       //switch for activating the pop up servo
 
-int letDownYourHairState = LOW;
-int windowRapunzelState = LOW;
-int rapunzelHairState = LOW;
+//LEDs for window
+const int windowRapunzel = 10; //rapunzel that activates lights
+const int lantern1 = 5;        //LED 1
+const int lantern2 = 4;       //LED 2
+
+//piezo
+const int rapunzelHair = 12; //hair on ground that activates Piezo
+
+//switch states
+int letDownYourHairState = LOW; //switch for window servo
+int windowRapunzelState = LOW; //rapunzel that activates lights
+int rapunzelHairState = LOW; //hair on ground that activates Piezo
+int iWannaSeeTheLightsState = LOW; //switch for mood swing gothel servo
+int motherGothelRuffiansState = LOW;    //switch for activating the pop up servo
 
 // notes in the melody:
 int melody[] = {
@@ -21,7 +31,8 @@ int noteDurations[] = {
   2, 4, 2, 4, 1, 2, 2, 4, 2, 4, 1, 2, 2, 4, 4, 4, 1, 2, 4, 4, 4, 2, 4, 1, 2, 2, 2, 2, 1
 };
 
-Servo servo;
+Servo windowServo;
+Servo gothelServo;
 
 void setup() {
 
@@ -29,13 +40,17 @@ void setup() {
   pinMode(lantern2, OUTPUT);
   pinMode(windowRapunzel, INPUT);
   pinMode(rapunzelHair, INPUT);
+  pinMode(letDownYourHair, INPUT);
+  pinMode(iWannaSeeTheLights, INPUT);
+  pinMode(motherGothelRuffians, INPUT);
 
 
   // servo setup
-  servo.attach(3);
+  windowServo.attach(3);
+  gothelServo.attach(7);
+  ruffianServo.attach(2);
 
   //button setup
-  pinMode(letDownYourHair, INPUT);
 
   Serial.begin(9600);
 }
@@ -44,7 +59,7 @@ void loop() {
   windowRapunzelState = digitalRead(windowRapunzel);
 
   if (windowRapunzelState == HIGH) {
-    digitalWrite(lantern1, HIGH);
+    digitalWrite(lantern1, HIGH);             //LEDs turning on and off
     digitalWrite(lantern2, HIGH);
 
   } else {
@@ -53,19 +68,43 @@ void loop() {
 
   }
 
+
+
   letDownYourHairState = digitalRead(letDownYourHair);
   if (digitalRead(13) == LOW) {
-    servo.write(180);
+    windowServo.write(180);                 //servo that pushes hair out the window
   } else {
-    servo.write(90);
+    windowServo.write(90);
   }
+
+
+
+
+  iWannaSeeTheLightsState = digitalRead(iWannaSeeTheLights);
+  if (digitalRead(11) == LOW) {
+    gothelServo.write(180);                 //servo that turns mother gothel from happy to sad
+  } else {
+    gothelServo.write(0);
+  }
+
+
+motherGothelRuffiansState = digitalRead(motherGothelRuffians);
+if (digitalRead(2) == LOW) {
+  ruffianServo.write(180);
+} else {
+  ruffianServo.write(0);
+}
+
+  
 
   rapunzelHairState = digitalRead(rapunzelHair);
   if (rapunzelHairState == HIGH) {
-    buzzer();
+    buzzer();                               //the hair that gets brushed and plays the piezo
   }
   Serial.println(letDownYourHairState);
 }
+
+
 
 void buzzer() {
   // iterate over the notes of the melody:
