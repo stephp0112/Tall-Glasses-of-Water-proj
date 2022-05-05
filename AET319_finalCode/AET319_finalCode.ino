@@ -3,8 +3,8 @@
 
 //switches
 const int letDownYourHair = 13; //switch for window pushing hair servo
-const int iWannaSeeTheLights = 11; // switch for mood swing gothel servo
-const int motherGothelRuffians = 9;       //switch for activating the pop up servo
+const int iWannaSeeTheLights = 9; // switch for mood swing gothel servo
+const int motherGothelRuffians = 11;       //switch for activating the pop up servo
 
 //LEDs for window
 const int windowRapunzel = 10; //rapunzel that activates lights
@@ -48,8 +48,8 @@ void setup() {
 
   // servo setup
   windowServo.attach(3);
-  gothelServo.attach(7);
-  ruffianServo.attach(2);
+  gothelServo.attach(2);
+  ruffianServo.attach(7);
 
   //button setup
 
@@ -79,21 +79,20 @@ void loop() {
   }
 
 
-
-
-  iWannaSeeTheLightsState = digitalRead(iWannaSeeTheLights);
+  
+  motherGothelRuffiansState = digitalRead(motherGothelRuffians);
   if (digitalRead(11) == LOW) {
-    gothelServo.write(180);                 //servo that turns mother gothel from happy to sad
+    ruffianServo.write(180);                 //servo that turns mother gothel from happy to sad
   } else {
-    gothelServo.write(0);
+    ruffianServo.write(90);
   }
 
 
-motherGothelRuffiansState = digitalRead(motherGothelRuffians);
-if (digitalRead(2) == LOW) {
-  ruffianServo.write(180);
+iWannaSeeTheLightsState = digitalRead(iWannaSeeTheLights);
+if (digitalRead(9) == LOW) {
+  gothelServo.write(180);
 } else {
-  ruffianServo.write(0);
+  gothelServo.write(0);
 }
 
   
